@@ -9,7 +9,7 @@ on:
 jobs:
   build:
     name: Build and analyze
-    runs-on: hitman
+    runs-on: hitto
     
     steps:
       - uses: actions/checkout@v4
