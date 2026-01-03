@@ -15,6 +15,18 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
+      - name: Install SonarScanner
+        shell: powershell
+        run: |
+          $url = "https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-7.2.0.5079-windows-x64.zip"
+          $zip = "$env:RUNNER_TEMP\sonar-scanner.zip"
+          $dest = "$env:RUNNER_TEMP\sonar-scanner"
+      
+          Invoke-WebRequest $url -OutFile $zip
+          Expand-Archive $zip -DestinationPath $dest -Force
+      
+          echo "$dest\sonar-scanner-7.2.0.5079-windows-x64\bin" >> $env:GITHUB_PATH
+
       - uses: SonarSource/sonarqube-scan-action@v6
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
